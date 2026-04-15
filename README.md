@@ -17,20 +17,46 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
 
-Some prompts to answer:
+This recommender uses a simple content-based approach to suggest songs based on a user's preferences. In real-world systems, platforms like Spotify use large-scale behavioral data and machine learning models, but this version focuses on a smaller and more interpretable scoring system.
+Each song is represented using features such as genre, mood, energy, and acousticness. The user profile stores preferences including favorite genre, preferred mood, target energy level, and whether the user prefers acoustic or electronic music.
+The recommender computes a score for each song using a weighted formula. It rewards songs that match the user’s genre and mood, and also gives higher scores to songs whose energy level is closer to the user’s target. Acousticness is used to adjust the score based on whether the user prefers acoustic or electronic sound.
+After scoring all songs, the system ranks them from highest to lowest score and returns the top recommendations. This separation between scoring individual songs and ranking the results helps simulate how real recommendation systems work at a basic level.
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+### User Profile Design
 
-You can include a simple diagram or bullet list if helpful.
+The user profile is defined using four features: favorite_genre, favorite_mood, target_energy, and likes_acoustic. These features were chosen because they capture both categorical preferences (genre, mood) and continuous preferences (energy), along with a stylistic preference (acoustic vs electronic).
 
----
+This profile is effective in distinguishing very different types of music, such as intense rock and chill lofi. Rock songs typically have high energy, intense mood, and low acousticness, while lofi songs tend to have low energy, relaxed mood, and higher acousticness. The combination of these features allows the recommender to clearly separate these categories.
 
+However, the profile is more limited when comparing closely related genres, such as pop and indie pop, where the system treats them as completely different. It also assumes that mood labels are consistent and accurate, which may not always be true. This shows that while the profile works well for broad distinctions, it lacks nuance for more subtle differences.
+
+### Data Flow Diagram
+
+
+flowchart TD
+    A[User Profile Input] --> B[Load songs from songs.csv]
+    B --> C[Loop through each song]
+    C --> D[Compute score using genre, mood, energy, and acousticness]
+    D --> E[Store song with score]
+    E --> F[Sort all songs by score]
+    F --> G[Return Top K Recommendations]
+
+
+### Algorithm Recipe
+
+The recommender uses a weighted scoring rule to evaluate each song. A song receives points based on how well it matches the user’s preferences:
+
+- Genre match: 30%
+- Mood match: 30%
+- Energy closeness: 25% (calculated as 1 - |song.energy - target_energy|)
+- Acousticness fit: 15% (adjusted based on whether the user prefers acoustic or electronic sound)
+
+Each song is scored individually using this formula, and then all songs are ranked from highest to lowest score. The top K songs are returned as recommendations.
+
+### Potential Biases
+
+This system may over-prioritize exact genre matches, which can limit diversity and ignore songs from similar or related genres. It also assumes that mood labels are accurate and consistent, which may not reflect how users actually perceive music. Additionally, because the dataset is small, the recommendations may not generalize well to broader music preferences.
 ## Getting Started
 
 ### Setup

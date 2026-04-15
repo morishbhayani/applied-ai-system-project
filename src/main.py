@@ -9,8 +9,7 @@ You will implement the functions in recommender.py:
 - recommend_songs
 """
 
-from recommender import load_songs, recommend_songs
-
+from src.recommender import load_songs, recommend_songs
 
 def main() -> None:
     songs = load_songs("data/songs.csv") 
@@ -22,11 +21,11 @@ def main() -> None:
 
     print("\nTop recommendations:\n")
     for rec in recommendations:
-        # You decide the structure of each returned item.
-        # A common pattern is: (song, score, explanation)
-        song, score, explanation = rec
+        song, score, reasons = rec
         print(f"{song['title']} - Score: {score:.2f}")
-        print(f"Because: {explanation}")
+        print("Reasons:")
+        for reason in reasons:
+            print(f"  - {reason}")
         print()
 
 

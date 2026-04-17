@@ -19,6 +19,7 @@ class Song:
     valence: float
     danceability: float
     acousticness: float
+    song_type: str = "song"
 
 
 @dataclass
@@ -141,6 +142,7 @@ def load_songs(csv_path: str) -> List[Dict]:
                 "id":           int(row["id"]),
                 "title":        row["title"],
                 "artist":       row["artist"],
+                "song_type":    row.get("song_type", "song"),
                 "genre":        row["genre"],
                 "mood":         row["mood"],
                 "energy":       float(row["energy"]),

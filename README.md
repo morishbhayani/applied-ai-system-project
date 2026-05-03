@@ -1,5 +1,11 @@
 # VibeFinder — AI-Powered Music Recommender
 
+## Demo
+
+[Watch the demo on Loom](https://www.loom.com/share/4c4b96becc964111997d5b173b28a0da)
+
+---
+
 ## Original Project (Modules 1–3)
 
 The original project was a **CLI-based music recommender** built in Modules 1–3. It loaded a static 18-song CSV catalog and, given a user's preferences (genre, mood, target energy level, and acoustic preference), scored and ranked songs using a weighted formula, then printed the top recommendations with plain-English explanations to the terminal. The goal was to explore content-based filtering: recommending items purely from their attributes and a user profile, without any user history or collaborative data.
